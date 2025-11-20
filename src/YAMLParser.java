@@ -5,7 +5,7 @@ import java.io.FileWriter;
 /**
  * YAMLParser inherits Configuration abstract class
  */
-public class YAMLParser extends Configuration implements Parsers {
+public class YAMLParser extends Configuration implements ParsersInterface {
     /**
      * Reads configuration file and applies settings for runtime
      */
@@ -13,7 +13,6 @@ public class YAMLParser extends Configuration implements Parsers {
         try {
             YAMLParser yamlParser = new YAMLParser();
             Logger.INFO.Log("Using YAML Reader, with no token type checker");
-            tokenConfig = yamlParser.LoadKeys();
             yamlParser.ReadConfig();
             yamlParser.MapKeys(tokenConfig.length == 0);
         } catch (Exception e) {

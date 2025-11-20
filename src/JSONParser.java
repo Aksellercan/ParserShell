@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * JSONParser inherits Configuration abstract class
  */
-public final class JSONParser extends Configuration implements Parsers {
+public final class JSONParser extends Configuration implements ParsersInterface {
     private static boolean useFormatting = true;
 
     /**
@@ -36,7 +36,6 @@ public final class JSONParser extends Configuration implements Parsers {
         try {
             JSONParser jsonParser = new JSONParser();
             Logger.INFO.Log("Using JSON Reader with token type checker");
-            tokenConfig = jsonParser.LoadKeys();
             jsonParser.ReadConfig();
             jsonParser.SetTokenTypes();
             jsonParser.MapKeys(tokenConfig.length == 0);

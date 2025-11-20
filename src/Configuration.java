@@ -4,44 +4,12 @@ import java.io.IOException;
 /**
  * Abstract class to share same token array
  */
-public abstract class Configuration {
-    /**
-     * Saved Tokens array
-     */
-    protected static Token[] tokenConfig;
-    /**
-     * Configuration folder path
-     */
-    private final File folderPath = new File("Config");
-
-    /**
-     * Specify keys to write when config file is not present (first time launch).
-     * Add Entries here to be loaded when config file is non-existent or empty
-     */
-    protected Token[] LoadKeys() {
-        String[] keys = {
-                "output_debug",
-                "coloured_output",
-                "enable_stack_traces",
-                "verbose_log_file",
-                "use_formatting",
-                "quiet",
-                "log_path",
-                "name_of_logger"
-        };
-        tokenConfig = new Token[keys.length];
-        for (int i = 0; i < tokenConfig.length; i++) {
-            tokenConfig[i] = new Token(keys[i]);
-            Logger.DEBUG.Log(tokenConfig[i].toString(), true);
-        }
-        return tokenConfig;
-    }
-
+abstract class Configuration implements ConfigurationInterface, FileUtilityInterface {
     /**
      * Map current values with token array to be written or set values using tokenConfig array
      * Add new entries here, with update and normal behaviour
      */
-    protected void MapKeys(boolean update) {
+    public void MapKeys(boolean update) {
         for (Token token : tokenConfig) {
             Logger.DEBUG.Log("Current: " + token.toString());
             switch (token.getKey().replace("\t", "")) {
@@ -119,28 +87,12 @@ public abstract class Configuration {
     }
 
     /**
-     * Find and set Token value, additionally mark it as seen to avoid duplicates
-     * @param key   Key to modify
-     * @param value Token value
-     */
-    protected void FindAndSetToken(String key, String value) {
-        for (Token token : tokenConfig) {
-            if (!token.isSeen() && token.getKey().equals(key)) {
-                token.setValue(value);
-                token.markAsSeen();
-                Logger.DEBUG.Log(":: CHECK " + token.toString());
-                break;
-            }
-        }
-    }
-
-    /**
      * Checks if directory exists, if it doesn't it creates it and returns the file path
      * @param fileNameWithExtension Name of file to check and create
      * @return  Full path of the file
      * @throws IOException  If creating folder fails throws IOException
      */
-    protected File MkDirs(String fileNameWithExtension) throws IOException {
+    public File MkDirs(String fileNameWithExtension) throws IOException {
         if (!folderPath.exists()) {
             boolean status = folderPath.mkdir();
             if (status) {

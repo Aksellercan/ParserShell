@@ -28,3 +28,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+logs/
+Config/
+.idea/
+ParserShell.iml
