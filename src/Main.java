@@ -47,6 +47,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println(ConsoleColours.RED_BRIGHT + "SHELL" + ConsoleColours.RESET);
         System.out.println(ConsoleColours.PURPLE_BRIGHT + "Input: " + ConsoleColours.RESET);
+        JSONParser jsonParser = new JSONParser();
+        YAMLParser yamlParser = new YAMLParser();
         while (true) {
             System.out.print("=> " + (!useJson ? ConsoleColours.YELLOW_BRIGHT + "YAML: " + ConsoleColours.RESET : ConsoleColours.GREEN_BRIGHT + "JSON: " + ConsoleColours.RESET));
             String ls;
@@ -69,9 +71,9 @@ public class Main {
                     break;
                 case "w", "write", "save", "2":
                     if (useJson) {
-                        JSONParser.MapAndWriteConfig();
+                        jsonParser.MapAndWriteConfig();
                     } else {
-                        YAMLParser.MapAndWriteConfig();
+                        yamlParser.MapAndWriteConfig();
                     }
                     break;
                 case "cd":
@@ -79,9 +81,9 @@ public class Main {
                     break;
                 case "s", "read", "r", "3":
                     if (useJson) {
-                        JSONParser.ReadConfigAndMap();
+                        jsonParser.ReadConfigAndMap();
                     } else {
-                        YAMLParser.ReadConfigAndMap();
+                        yamlParser.ReadConfigAndMap();
                     }
                     break;
                 case "e", "i", "info", "ls", "4":
@@ -177,9 +179,9 @@ public class Main {
                     break;
                 case "wq":
                     if (useJson) {
-                        JSONParser.MapAndWriteConfig();
+                        jsonParser.MapAndWriteConfig();
                     } else {
-                        YAMLParser.MapAndWriteConfig();
+                        yamlParser.MapAndWriteConfig();
                     }
                     return;
                 case "q", "quit", "0":

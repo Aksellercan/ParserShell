@@ -9,12 +9,11 @@ public class YAMLParser extends Configuration implements ParsersInterface {
     /**
      * Reads configuration file and applies settings for runtime
      */
-    public static void ReadConfigAndMap() {
+    public void ReadConfigAndMap() {
         try {
-            YAMLParser yamlParser = new YAMLParser();
             Logger.INFO.Log("Using YAML Reader, with no token type checker");
-            yamlParser.ReadConfig();
-            yamlParser.MapKeys(tokenConfig.length == 0);
+            ReadConfig();
+            MapKeys(tokenConfig.length == 0);
         } catch (Exception e) {
             Logger.CRITICAL.LogException(e, "Unable to read configuration");
         }
@@ -23,11 +22,10 @@ public class YAMLParser extends Configuration implements ParsersInterface {
     /**
      * Maps configuration in memory with the current values and writes them
      */
-    public static void MapAndWriteConfig() {
+    public void MapAndWriteConfig() {
         try {
-            YAMLParser yamlParser = new YAMLParser();
-            yamlParser.MapKeys(true);
-            yamlParser.WriteConfig();
+            MapKeys(true);
+            WriteConfig();
         } catch (Exception e) {
             Logger.CRITICAL.LogException(e, "Unable to write configuration to file");
         }

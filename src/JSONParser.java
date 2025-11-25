@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * JSONParser inherits Configuration abstract class
  */
-public final class JSONParser extends Configuration implements ParsersInterface {
+public class JSONParser extends Configuration implements ParsersInterface {
     private static boolean useFormatting = true;
 
     /**
@@ -32,13 +32,12 @@ public final class JSONParser extends Configuration implements ParsersInterface 
     /**
      * Reads configuration file and applies settings for runtime
      */
-    public static void ReadConfigAndMap() {
+    public void ReadConfigAndMap() {
         try {
-            JSONParser jsonParser = new JSONParser();
             Logger.INFO.Log("Using JSON Reader with token type checker");
-            jsonParser.ReadConfig();
-            jsonParser.SetTokenTypes();
-            jsonParser.MapKeys(tokenConfig.length == 0);
+            ReadConfig();
+            SetTokenTypes();
+            MapKeys(tokenConfig.length == 0);
         } catch (Exception e) {
             Logger.CRITICAL.LogException(e, "Unable to read configuration");
         }
@@ -47,16 +46,15 @@ public final class JSONParser extends Configuration implements ParsersInterface 
     /**
      * Maps configuration in memory with the current values and writes them
      */
-    public static void MapAndWriteConfig() {
+    public void MapAndWriteConfig() {
         try {
-            JSONParser jsonParser = new JSONParser();
             Logger.INFO.Log("Using JSON Writer with token type checker");
-            jsonParser.MapKeys(true);
-            jsonParser.SetTokenTypes();
+            MapKeys(true);
+            SetTokenTypes();
             if (JSONParser.getUseFormatting())
-                jsonParser.WriteConfig();
+                WriteConfig();
             else
-                jsonParser.WriteAsSingleLine();
+                WriteAsSingleLine();
         } catch (Exception e) {
             Logger.CRITICAL.LogException(e, "Unable to write configuration to file");
         }
