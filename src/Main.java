@@ -1,3 +1,6 @@
+import NewGen.Lexer;
+
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Main {
@@ -186,6 +189,10 @@ public class Main {
                     return;
                 case "q", "quit", "0":
                     return;
+                case "exp", "401":
+                    Lexer lexer = new Lexer(Path.of("./Config/newGen.config"));
+                    lexer.readFile();
+                    break;
                 default:
                     System.out.println( ConsoleColours.RED + "Invalid command " + ls + ConsoleColours.RESET);
                     break;
