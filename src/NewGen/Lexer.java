@@ -34,19 +34,26 @@ public class Lexer {
     protected Token tokenize(String line) throws IllegalArgumentException {
         String[] pair = line.split(":", 2);
 
-        if (pair.length != 2 ) throw new IllegalArgumentException("Expected value, got neither...");
+        if (pair.length != 2) throw new IllegalArgumentException("Expected value, got neither...");
         //if (pair[1].trim().startsWith("{")) object = true;
         if (pair[1].trim().startsWith("[")) {
-            return new Token(pair[0], formatValue(Arrays.toString(formatArray(pair[1]))), false, true);
+            return new Token(pair[0], Arrays.toString(formatArray(formatValue(pair[1]))), false, true);
         }
         // for now...
         return new Token(pair[0], (String) formatValue(pair[1]));
     }
 
+    // -1 if invalid, 0 if correct, 1 if should see next line
+    private int validateLine(String line) throws IllegalArgumentException {
+        String[] pair = line.split(":", 2);
+        if (pair.length != 2) throw new IllegalArgumentException("Failed line validation.");
+        return line.trim().endsWith(";") ? 0 : 1;
+    }
+
     private String[] formatArray(String value) {
         String[] split = value.split(",");
         for (int i = 0; i < split.length; i++) {
-            if (i == 0 || i == split.length-1) {
+            if (i == 0 || i == split.length - 1) {
                 split[i] = split[i].replace((i == 0 ? "[" : "]"), "").trim();
             }
             split[i] = formatArrayItem(split[i].trim());
@@ -65,14 +72,35 @@ public class Lexer {
     public void readFile() {
         try (BufferedReader bf = new BufferedReader(new FileReader(sourceFile.toFile()))) {
             String line;
-
+            boolean requireNextLine = false;
+            StringBuilder combineLines = new StringBuilder();
             while ((line = bf.readLine()) != null) {
                 if (isComment(line) || isEmptyLine(line)) continue;
+                if (requireNextLine) {
+                    if (line.endsWith(";")) {
+                        requireNextLine = false;
+                    }
+                    combineLines.append(line);
+                    if (!requireNextLine) {
+                        line = combineLines.toString();
+                    } else {
+                        continue;
+                    }
+                }
+                switch (validateLine(line)) {
+                    case 1:
+                        requireNextLine = true;
+                        combineLines.append(line);
+                        continue;
+                    case -1:
+                        System.out.println("-1");
+                        break;
+                }
                 System.out.println(tokenize(line));
             }
-
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
+
     }
 }

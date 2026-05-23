@@ -80,11 +80,17 @@ public class Token {
     public void setCategoryType(String categoryType) {
         this.categoryType = categoryType;
     }
-
+    
     @Override
     public String toString() {
-        return "Key: " + this.key + ", Value: " + this.value + ". States: isBoolean: " +
-                this.isBoolean + ", isNumber: " + this.isNumber + ". Seen: " + (this.seen ? "yes" : "no") + ", " +
-                "Sensitive Info: " + (this.isSensitiveInfo() ? "yes" : "no") + (categoryType.isEmpty() ? "." : ", Category: " + categoryType);
+        return "Token{" +
+                "key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                ", isNumber=" + isNumber +
+                ", isBoolean=" + isBoolean +
+                ", seen=" + seen +
+                ", sensitiveInfo=" + sensitiveInfo +
+                ", categoryType='" + categoryType + '\'' +
+                '}';
     }
 }
